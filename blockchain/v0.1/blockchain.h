@@ -28,11 +28,11 @@
  *
  * @chain: Linked list of pointers to block_t
  */
+
 typedef struct blockchain_s
 {
 	llist_t	 *chain;
 } blockchain_t;
-
 
 /**
  * struct block_info_s - Block info structure
@@ -43,6 +43,7 @@ typedef struct blockchain_s
  * @nonce:	  Salt value used to alter the Block hash
  * @prev_hash:  Hash of the previous Block in the Blockchain
  */
+
 typedef struct block_info_s
 {
 	/*
@@ -52,6 +53,7 @@ typedef struct block_info_s
 	 * Therefore, it is possible to use the structure as an array of char,
 	 * on any architecture.
 	 */
+
 	uint32_t	index;
 	uint32_t	difficulty;
 	uint64_t	timestamp;
@@ -67,6 +69,7 @@ typedef struct block_info_s
  * @buffer: Data buffer
  * @len:	Data size (in bytes)
  */
+
 typedef struct block_data_s
 {
 	/*
@@ -84,6 +87,7 @@ typedef struct block_data_s
  * @data: Block data
  * @hash: 256-bit digest of the Block, to ensure authenticity
  */
+
 typedef struct block_s
 {
 	block_info_t	info; /* This must stay first */
