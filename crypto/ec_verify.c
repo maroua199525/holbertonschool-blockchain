@@ -19,7 +19,7 @@ int ec_verify(EC_KEY const *key, uint8_t const *msg, size_t msglen,
 		return (0);
 
 	/* Verify the signature */
-	if (ECDSA_verify(0, msg, msglen, sig->sig, sig->len, (EC_KEY *) key) != 1)
+	if (!ECDSA_verify(0, msg, msglen, sig->sig, sig->len, (EC_KEY *) key))
 		return (0);
 
 	/* Return success if signature is valid */
