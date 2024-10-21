@@ -12,7 +12,7 @@
 uint8_t *ec_sign(EC_KEY const *key, uint8_t const *msg, size_t msglen,
 				sig_t *sig)
 {
-	unsigned int len = (unsigned int)sig->len;
+	unsigned int len = SIG_MAX_LEN;
 	EC_KEY *k = NULL;
 
 	if (!key || !msg || !sig)
