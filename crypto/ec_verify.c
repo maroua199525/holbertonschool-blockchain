@@ -1,27 +1,24 @@
 #include "hblk_crypto.h"
 
+
 /**
- * ec_verify - Verifies the signature of a given set of bytes,
- *			   using a given EC_KEY public key.
- * @key: Points to the EC_KEY structure containing the public key
- *		 to be used to verify the signature.
- * @msg: Points to the msglen characters to verify the signature of
- * @msglen: Length of msg
- * @sig: Points to the signature to be checked
- * Return: 1 if the signature is valid, and 0 otherwise
- * If either key, msg or sig is NULL, function must fail
-*/
+ * ec_verify- func
+ * @key: EC_KEY const *
+ * @msg: uint8_t const *
+ * @msglen: size_t
+ * @sig: sig_t const *
+ * Return: int
+ */
 int ec_verify(EC_KEY const *key, uint8_t const *msg, size_t msglen,
-			  sig_t const *sig)
+				sig_t const *sig)
 {
-	/* Check if the key, message, or signature is NULL */
+	int len = (int)sig->len;
+	EC_KEY *k = NULL;
+
 	if (!key || !msg || !sig)
 		return (0);
-
-	/* Verify the signature */
-	if (ECDSA_verify(0, msg, msglen, sig->sig, sig->len, (EC_KEY *) key) != 1)
+	k = (EC_KEY *)key;
+	if (ECDSA_verify(0, msg, msglen, (unsigned char *)sig->sig, len, k) != 1)
 		return (0);
-
-	/* Return success if signature is valid */
 	return (1);
 }
