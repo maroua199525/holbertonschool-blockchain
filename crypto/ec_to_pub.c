@@ -22,8 +22,7 @@ uint8_t *ec_to_pub(EC_KEY const *key, uint8_t pub[EC_PUB_LEN])
 	if (!p)
 		return (ec_to_pub_errors(3));
 	f = EC_KEY_get_conv_form(key);
-	if (EC_POINT_point2oct(g, p, f, (unsigned char *)pub, EC_PUB_LEN, NULL) == 0)
-		return (NULL);
+	EC_POINT_point2oct(g, p, f, (unsigned char *)pub, EC_PUB_LEN, NULL);
 	return (pub);
 }
 
