@@ -22,32 +22,20 @@ EC_KEY *ec_load(char const *folder)
 
     /* Open and read public key */
     fp = fopen(key_path, "r");
-    if (!fp)
+    if (!fp || !PEM_read_EC_PUBKEY(fp, &key, NULL, NULL))
         return (NULL);
-    key = PEM_read_EC_PUBKEY(fp, NULL, NULL, NULL);
     fclose(fp);
-
-    if (!key)
-        return (NULL);
 
     /* Construct path to private key file */ 
     sprintf(key_path, "%s/%s", folder, PRI_FILENAME);
 
     /* Open and read private key */ 
     fp = fopen(key_path, "r");
-    if (!fp)
+    if (!fp || !PEM_read_ECPrivateKey(fp, &key, NULL, NULL))
     {
-        EC_KEY_free(key);
-        return (NULL);
+        EC_KEY_free(key); /* free because allocated for public already */
+		return (NULL);
     }
-
-    if (!PEM_read_ECPrivateKey(fp, &key, NULL, NULL))
-    {
-        EC_KEY_free(key);
-        fclose(fp);
-        return (NULL);
-    }
-
     fclose(fp);
     return (key);
 }
