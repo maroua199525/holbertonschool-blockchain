@@ -10,7 +10,6 @@
 
 void block_mine(block_t *block)
 {
-	/* init nonce to 0 and increment at each try */
 	do {
 		block->info.nonce += 1;
 		block_hash(block, block->hash);
