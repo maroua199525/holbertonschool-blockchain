@@ -8,6 +8,8 @@
  */
 void block_mine(block_t *block)
 {
+	if (!block)
+        return;
 	if (block)
 		while (!hash_matches_difficulty(block->hash, block->info.difficulty))
 		{
