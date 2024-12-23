@@ -126,6 +126,7 @@ typedef struct blockchain_s
 	int get_leading_zeroes(uint8_t const hash[SHA256_DIGEST_LENGTH]);
 	void block_mine(block_t *block);
 	uint32_t blockchain_difficulty(blockchain_t const *blockchain);
+	block_t *init_genesis_block(uint8_t difficulty);
 
 /* v0.3 */
 	int cpy_tx(transaction_t *tx, int idx, uint8_t *buf);
