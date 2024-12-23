@@ -28,6 +28,11 @@ block_t *block_create(block_t const *prev, int8_t const *data,
 	memcpy(nb->data.buffer, data, dl);
 	nb->data.len = dl;
 	nb->transactions = llist_create(MT_SUPPORT_FALSE);
+	if (!nb->transactions)
+	{
+		free(nb);
+		return (NULL);
+	}
 	memset(nb->hash, 0, SHA256_DIGEST_LENGTH);
 	return (nb);
 }
