@@ -41,6 +41,11 @@ blockchain_t *blockchain_create(void)
 			"\xd3\xd7\xff\x2f\x04\x51\x58\x03",
 			SHA256_DIGEST_LENGTH);
 		/* c52c26c8b5461639635d8edf2a97d48d0c8e0009c817f2b1d3d7ff2f04515803 */
-	llist_add_node(blockchain->chain, block, ADD_NODE_FRONT);
+	
+	if (llist_add_node(blockchain->chain, block, ADD_NODE_FRONT) == -1)
+	{
+		free(blockchain->chain), free(blockchain), free(block);
+		return (NULL);
+	}
 	return (blockchain);
 }
