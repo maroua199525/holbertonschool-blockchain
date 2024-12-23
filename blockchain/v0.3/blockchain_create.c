@@ -17,13 +17,13 @@ blockchain_t *blockchain_create(void)
 	blockchain->unspent = llist_create(MT_SUPPORT_FALSE);
 	if (!blockchain->chain || !blockchain->unspent)
 	{
-		blockchain_destroy(blockchain);
+		free(blockchain);
 		return (NULL);
 	}
 	block = malloc(sizeof(block_t));
 	if (!block)
 	{
-		blockchain_destroy(blockchain);
+		free(blockchain);
 		return (NULL);
 	}
 	block->info.index = 0;
