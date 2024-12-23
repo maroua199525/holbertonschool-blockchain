@@ -27,7 +27,7 @@
 
 /* Provided structures related to blockchain */
 
-extern block_t const _genesis;
+
 /**
  * struct block_info_s - Block info structure
  *
@@ -100,7 +100,8 @@ typedef struct blockchain_s
 	llist_t     *unspent;
 } blockchain_t;
 
-
+/* Used in other files, comes from provided/_genesis.c */
+extern block_t const _genesis;
 
 /* Functions prototypes */
 
