@@ -86,7 +86,26 @@ typedef struct block_s
 	uint8_t     hash[SHA256_DIGEST_LENGTH];
 } block_t;
 
-extern block_t const _genesis;
+
+block_t const _genesis = {
+	{ /* info */
+		0 /* index */,
+		0, /* difficulty */
+		1537578000, /* timestamp */
+		0, /* nonce */
+		{0} /* prev_hash */
+	},
+	{ /* data */
+		"Holberton School", /* buffer */
+		16 /* len */
+	},
+	NULL, /* transactions */
+	"\xc5\x2c\x26\xc8\xb5\x46\x16\x39\x63\x5d\x8e\xdf\x2a\x97\xd4\x8d"
+	"\x0c\x8e\x00\x09\xc8\x17\xf2\xb1\xd3\xd7\xff\x2f\x04\x51\x58\x03"
+	/* hash */
+	/* c52c26c8b5461639635d8edf2a97d48d0c8e0009c817f2b1d3d7ff2f04515803 */
+};
+
 
 /**
  * struct blockchain_s - Blockchain structure
@@ -126,7 +145,6 @@ typedef struct blockchain_s
 	int get_leading_zeroes(uint8_t const hash[SHA256_DIGEST_LENGTH]);
 	void block_mine(block_t *block);
 	uint32_t blockchain_difficulty(blockchain_t const *blockchain);
-	block_t *init_genesis_block(uint8_t difficulty);
 
 /* v0.3 */
 	int cpy_tx(transaction_t *tx, int idx, uint8_t *buf);
