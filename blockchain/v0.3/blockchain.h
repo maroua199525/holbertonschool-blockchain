@@ -27,6 +27,7 @@
 
 /* Provided structures related to blockchain */
 
+extern block_t const _genesis;
 /**
  * struct block_info_s - Block info structure
  *
@@ -86,7 +87,6 @@ typedef struct block_s
 	uint8_t     hash[SHA256_DIGEST_LENGTH];
 } block_t;
 
-extern block_t const _genesis;
 
 /**
  * struct blockchain_s - Blockchain structure
