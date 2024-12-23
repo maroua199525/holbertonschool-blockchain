@@ -46,4 +46,5 @@ blockchain_t *blockchain_create(void)
 		free(blockchain->chain), free(blockchain), free(block);
 		return (NULL);
 	}
+	return (blockchain);
 }
