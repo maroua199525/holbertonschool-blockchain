@@ -1,6 +1,6 @@
 #ifndef BLOCKCHAIN_V0_2
 #define BLOCKCHAIN_V0_2
-
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
 
 
 #define BLOCKCHAIN_DATA_MAX 1024
