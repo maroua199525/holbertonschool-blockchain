@@ -1,67 +1,36 @@
 #include "blockchain.h"
+#include <time.h>
 
 /**
- * block_create - Creates a Block structure and initializes it.
- * @prev: A pointer to the previous Block in the Blockchain.
- * @data: Points to a memory area to duplicate in the Block’s data.
- * @data_len: Stores the number of bytes to duplicate in data.
- *            If data_len is bigger than BLOCKCHAIN_DATA_MAX, then only
- *            BLOCKCHAIN_DATA_MAX bytes must be duplicated.
+ * block_create - Creates a block structure and init it
+ * @prev: pointer to the previous Block in chain
+ * @data: points to memory area to duplicate in Block's data
+ * @data_len: stores number of bytes to dup in data
+ * -> constraint : must not overflow macro BLOCKCHAIN_DATA_MAX
+ * otherwise BLOCKCHAIN_DATA_MAX must be duplicated instead
  *
- * Return: A pointer to the allocated Block, or NULL if allocation fails.
+ * -- Update Inserted --
+ * Now init the Block's transaction list ot an empty linked list (l.32)
  *
- * Description: The new Block's index will be set to the previous Block's
- *              index + 1.
- *
- *				The new Block's difficulty and nonce will both
- *              be initialized to 0.
- *
- *				The new Block's timestamp will be
- *              initialized using the time(2) system call.
- *
- *				The new Block's hash will be zeroed.
- *
- *				Initializes the Block’s transaction list to an empty linked list.
- *
- *
+ * Return: Pointer to newly allocated Block
  */
-block_t
-*block_create(block_t const *prev, int8_t const *data, uint32_t data_len)
+
+block_t *block_create(block_t const *prev, int8_t const *data,
+					  uint32_t data_len)
 {
-	block_t *new_block = malloc(sizeof(block_t));
+	block_t *new = calloc(1, sizeof(*new));
 
-	if (!new_block)
+	if (!new)
 		return (NULL);
 
-	/* Initialize struct members to zero */
-	memset(new_block, 0, sizeof(block_t));
+	new->info.index = prev->info.index + 1;
+	new->info.difficulty = new->info.nonce = 0;
+	new->info.timestamp = time(NULL);
+	memcpy(&(new->info.prev_hash), prev->hash, SHA256_DIGEST_LENGTH);
+	memcpy(&(new->data.buffer), data, MIN(data_len, BLOCKCHAIN_DATA_MAX));
+	new->data.len = MIN(data_len, BLOCKCHAIN_DATA_MAX);
+	new->transactions = llist_create(MT_SUPPORT_FALSE);
+	memset(&(new->hash), 0x0, SHA256_DIGEST_LENGTH);
 
-	/* Block info initialisation*/
-	if (prev)
-	{
-		new_block->info.index = prev->info.index + 1;
-		memcpy(new_block->info.prev_hash, prev->hash,
-			   sizeof(new_block->info.prev_hash));
-	}
-	new_block->info.timestamp = time(NULL);
-	/* new_block->info.timestamp = 1537207477; */ /* hard code for tests */
-
-	/* Block data initialisation */
-	if (data && data_len)
-	{
-		if (data_len > BLOCKCHAIN_DATA_MAX)
-			data_len = BLOCKCHAIN_DATA_MAX;
-		memcpy(new_block->data.buffer, data, data_len);
-		new_block->data.len = data_len;
-	}
-
-	/* transaction empty list creation */
-	new_block->transactions = llist_create(MT_SUPPORT_FALSE);
-	if (!new_block->transactions)
-	{
-		free(new_block);
-		return (NULL);
-	}
-
-	return (new_block);
+	return (new);
 }
