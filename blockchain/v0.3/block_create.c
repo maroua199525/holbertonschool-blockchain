@@ -33,6 +33,5 @@ block_t *block_create(block_t const *prev, int8_t const *data,
 		free(nb);
 		return (NULL);
 	}
-	memset(nb->hash, 0, SHA256_DIGEST_LENGTH);
 	return (nb);
 }
