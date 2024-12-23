@@ -13,24 +13,20 @@ blockchain_t *blockchain_create(void)
 	blockchain = malloc(sizeof(blockchain_t));
 	if (!blockchain)
 		return (NULL);
-	blockchain->chain = llist_create(MT_SUPPORT_FALSE);
+	blockchain->chain = llist_create(0);
 	blockchain->unspent = llist_create(MT_SUPPORT_FALSE);
 	if (!blockchain->chain || !blockchain->unspent)
 	{
-		free(blockchain);
+		blockchain_destroy(blockchain);
 		return (NULL);
 	}
 	block = malloc(sizeof(block_t));
 	if (!block)
 	{
-		free(blockchain->chain), free(blockchain);
+		blockchain_destroy(blockchain);
 		return (NULL);
 	}
 	*block = _genesis;
-	if (llist_add_node(blockchain->chain, block, ADD_NODE_FRONT) == -1)
-	{
-		free(blockchain->chain), free(blockchain), free(block);
-		return (NULL);
-	}
+	llist_add_node(blockchain->chain, block, ADD_NODE_FRONT);
 	return (blockchain);
 }
