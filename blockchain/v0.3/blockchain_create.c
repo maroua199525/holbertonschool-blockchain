@@ -23,7 +23,7 @@ blockchain_t *blockchain_create(void)
 	block = malloc(sizeof(block_t));
 	if (!block)
 	{
-		free(blockchain);
+		free(blockchain->chain), free(blockchain);
 		return (NULL);
 	}
 	block->info.index = 0;
