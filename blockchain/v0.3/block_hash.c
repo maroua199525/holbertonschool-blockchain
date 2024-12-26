@@ -1,6 +1,7 @@
 #include "blockchain.h"
 
 
+int cpy_tx(transaction_t *tx, int idx, uint8_t *buf);
 /**
  * block_hash- func
  * @block: block_t const *
@@ -11,7 +12,7 @@ uint8_t *block_hash(block_t const *block,
 	uint8_t hash_buf[SHA256_DIGEST_LENGTH])
 {
 	int b_length = 56, tx_size = 0, t_length = 0;
-	int8_t *buf = NULL;
+	int8_t *buf, *current_pos;
 
 	if (!block || !hash_buf)
 		return (NULL);
@@ -24,7 +25,11 @@ uint8_t *block_hash(block_t const *block,
 	if (!buf)
 		return (NULL);
 	memcpy(buf, block, b_length);
-	llist_for_each(block->transactions, (node_func_t)cpy_tx, buf + b_length);
+	if (tx_size > 0)
+	{
+		current_pos += b_length;
+		llist_for_each(block->transactions, cpy_tx, &current_pos);
+	}
 	sha256((int8_t *)block, t_length, hash_buf);
 	free(buf);
 	return (hash_buf);
