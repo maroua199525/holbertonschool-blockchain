@@ -11,7 +11,7 @@ uint8_t *block_hash(block_t const *block,
 	uint8_t hash_buf[SHA256_DIGEST_LENGTH])
 {
 	int b_length = 56, tx_size = 0, t_length = 0;
-	uint8_t *buf = NULL;
+	uint8_t *buf, *pos;
 
 	if (!block || !hash_buf)
 		return (NULL);
@@ -21,9 +21,10 @@ uint8_t *block_hash(block_t const *block,
 	buf = malloc(t_length);
 	if (!buf)
 		return (NULL);
+	pos = buf;
 	memcpy(buf, block, b_length);
-	buf += b_length;
-	llist_for_each(block->transactions, (node_func_t)cpy_tx, buf);
+	pos += sizeof(block->info) + block->data.len;
+	llist_for_each(block->transactions, (node_func_t)cpy_tx, pos);
 	sha256((int8_t *)block, t_length, hash_buf);
 	free(buf);
 	return (hash_buf);
