@@ -15,6 +15,7 @@ uint8_t *block_hash(block_t const *block,
 
 	if (!block || !hash_buf)
 		return (NULL);
+	memset(hash_buf, 0, SHA256_DIGEST_LENGTH);
 	b_length += block->data.len;
 	tx_size = llist_size(block->transactions);
 	t_length = b_length + tx_size * 32;
