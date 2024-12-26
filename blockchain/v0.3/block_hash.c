@@ -15,7 +15,7 @@ uint8_t *block_hash(block_t const *block,
 
 	if (!block || !hash_buf)
 		return (NULL);
-	b_length += block->data.len;
+	b_length = sizeof(block->info) + block->data.len;
 	tx_size = llist_size(block->transactions);
 	t_length = b_length + tx_size * 32;
 	buf = malloc(t_length);
