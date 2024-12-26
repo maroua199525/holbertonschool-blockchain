@@ -24,8 +24,11 @@ uint8_t *block_hash(block_t const *block,
 		return (NULL);
 	current_pos = buf;
 	memcpy(current_pos, block, sizeof(block->info) + block->data.len);
+	if (tx_size > 0)
+	{
 	current_pos += sizeof(block->info) + block->data.len;
 	llist_for_each(block->transactions, (node_func_t)cpy_tx, current_pos);
+	}
 	sha256((int8_t *)buf, b_length, hash_buf);
 	free(buf);
 	return (hash_buf);
