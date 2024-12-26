@@ -29,7 +29,7 @@ uint8_t *block_hash(block_t const *block,
 		llist_for_each(block->transactions, (node_func_t)cpy_tx, pos);
 
 	}
-	sha256((int8_t *)block, t_length, hash_buf);
+	sha256((int8_t *)block, b_length, hash_buf);
 	free(buf);
 	return (hash_buf);
 }
