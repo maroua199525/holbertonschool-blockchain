@@ -12,6 +12,7 @@ uint8_t *block_hash(block_t const *block,
 {
 	int b_length, tx_size = 0;
 	int8_t *buf, *current_pos;
+
 	if (!block || !hash_buf)
 		return (NULL);
 	memset(hash_buf, 0, SHA256_DIGEST_LENGTH);
