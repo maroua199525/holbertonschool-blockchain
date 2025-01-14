@@ -73,6 +73,6 @@ llist_t *update_unspent(llist_t *transactions,
 			llist_add_node(new_unspent, (llist_node_t)node, ADD_NODE_REAR);
 		}
 	}
-	llist_destroy(all_unspent, 0, NULL);
+	llist_destroy(all_unspent, 1, NULL);
 	return (new_unspent);
 }
