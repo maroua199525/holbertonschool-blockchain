@@ -40,7 +40,7 @@ int unspent_match(unspent_tx_out_t *utxo, tx_in_t *tx_in)
 llist_t *update_unspent(llist_t *transactions,
 	uint8_t block_hash[SHA256_DIGEST_LENGTH], llist_t *all_unspent)
 {
-	int i = 0, size = llist_size(transactions), j = 0, pos = 0, k;
+	int i = 0, size = llist_size(transactions), j = 0, k;
 	tx_out_t *out = NULL;
 	transaction_t *tx = NULL;
 	unspent_tx_out_t *node = NULL;
