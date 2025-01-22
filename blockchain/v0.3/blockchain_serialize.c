@@ -91,7 +91,6 @@ int save_block(block_t *block, uint32_t index, FILE *fd)
  */
 int save_tx(transaction_t *tx, uint32_t index, FILE *fd)
 {
-	uint32_t size = 0;
 	int32_t nb_inputs, nb_outputs;
 
 	(void)index;
@@ -144,6 +143,7 @@ int save_out(tx_out_t *out, uint32_t index, FILE *fd)
 {
 	(void)index;
 	uint32_t amount = out->amount;
+	fwrite(&amount, sizeof(amount), 1, fd);
 	fwrite(out->pub, EC_PUB_LEN, 1, fd);
 	fwrite(out->hash, SHA256_DIGEST_LENGTH, 1, fd);
 	return (0);
