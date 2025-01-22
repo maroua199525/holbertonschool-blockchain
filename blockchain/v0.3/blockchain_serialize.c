@@ -91,16 +91,14 @@ int save_block(block_t *block, uint32_t index, FILE *fd)
  */
 int save_tx(transaction_t *tx, uint32_t index, FILE *fd)
 {
-	int32_t nb_inputs, nb_outputs;
+	uint32_t size = 0;
 
 	(void)index;
-
-
-	fwrite(tx->id,SHA256_DIGEST_LENGTH, 1, fd);
-	nb_inputs = llist_size(tx->inputs);
-	fwrite(&nb_inputs, sizeof(uint32_t), 1, fd);
-	nb_outputs = llist_size(tx->outputs);
-	fwrite(&nb_outputs, sizeof(uint32_t), 1, fd);
+	fwrite(tx->id, sizeof(uint8_t), SHA256_DIGEST_LENGTH, fd);
+	size = llist_size(tx->inputs);
+	fwrite(&size, sizeof(uint32_t), 1, fd);
+	size = llist_size(tx->outputs);
+	fwrite(&size, sizeof(uint32_t), 1, fd);
 	if (llist_for_each(tx->inputs, (node_func_t)save_in, fd) == -1)
 		return (-1);
 	if (llist_for_each(tx->outputs, (node_func_t)save_out, fd) == -1)
@@ -123,7 +121,7 @@ int save_tx(transaction_t *tx, uint32_t index, FILE *fd)
 int save_in(tx_in_t *in, uint32_t index, FILE *fd)
 {
 	(void)index;
-	fwrite(in, sizeof(in), 1, fd);
+	fwrite(in, sizeof(uint8_t), sizeof(tx_in_t), fd);
 	return (0);
 }
 
@@ -142,9 +140,6 @@ int save_in(tx_in_t *in, uint32_t index, FILE *fd)
 int save_out(tx_out_t *out, uint32_t index, FILE *fd)
 {
 	(void)index;
-	uint32_t amount = out->amount;
-	fwrite(&amount, sizeof(amount), 1, fd);
-	fwrite(out->pub, EC_PUB_LEN, 1, fd);
-	fwrite(out->hash, SHA256_DIGEST_LENGTH, 1, fd);
+	fwrite(out, sizeof(uint8_t), sizeof(tx_out_t), fd);
 	return (0);
 }
